@@ -1,0 +1,75 @@
+.article {
+  padding: 0 20px;
+  background-color: #fff;
+  flex-grow: 1;
+  overflow: scroll;
+}
+
+.article .header {
+  padding: 20px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+}
+
+.article .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.article .subscribe {
+  flex-shrink: 0;
+  margin-top: 13px;
+  width: 55px;
+  height: 26px;
+  color: #6cbd45;
+  background-color: #fff;
+  border: 1px solid #6cbd45;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+.article article h1 {
+  padding: 20px 0 0 0;
+  font-size: 24px;
+}
+
+.article .tag span {
+  margin-left: 15px;
+  padding: 5px 7px;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #666;
+}
+
+.article .author {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+
+.article .author img {
+  margin: 20px 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.article .author .right-box {
+  margin: 10px 0;
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+}
+.article .author .right-box>span {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
