@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCommentsByArticleId } from '../fake-api';
 import "./comment.css"
-import FormatDate from "./FormatDate";
+import FormatDate from "./formatDate";
 
 export default function Comment({ item }) {
 

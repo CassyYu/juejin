@@ -1,5 +1,5 @@
-import Header from "./Header";
-import List from "./List";
+import Header from "./header";
+import List from "./list";
 import { getArticles, getArticleById } from '../fake-api';
 import { useEffect, useState } from "react";
 
@@ -33,12 +33,13 @@ export default function Category(props) {
       const { articles } = res.data;
       setArticles(articles);
     })();
-    const storage = window.localStorage;
     (async () => {
       let vArticles = [];
-      for (let i = 0; i < storage.length; i++) {
-        const res1 = await getArticleById(storage.key(i));
-        vArticles.push(res1.data.article);
+      const str = window.localStorage.getItem('history');
+      const arr = str ? JSON.parse(str) : [];
+      for (let i = 0, len = arr.length; i < len; i++) {
+        const res = await getArticleById(arr[i]);
+        vArticles.push(res.data.article);
       }
       setVisitedArticles(vArticles);
     })()
@@ -53,7 +54,16 @@ export default function Category(props) {
     else if (index <= offset - itemNum) setOffset(Math.max(0, offset - itemNum));
   }
 
-  const handleClickAriticle = (id) => () => window.localStorage.setItem(id, id);
+  const handleClickAriticle = function (id) {
+    return () => {
+      const str = window.localStorage.getItem('history');
+      const arr = str ? JSON.parse(str) : [];
+      const idx = arr.indexOf(id);
+      if (idx !== -1) arr.splice(idx, 1);
+      arr.unshift(id);
+      window.localStorage.setItem('history', JSON.stringify(arr));
+    }
+  }
 
   const handleClickTab = (category_name, category_id) => {
     return (() => {
@@ -78,7 +88,7 @@ export default function Category(props) {
 
   const changeCategory = (id) => setCategoryId(id);
 
-  if (sortBy === "history" && window.localStorage.length === 0) return (
+  if (sortBy === "history" && !window.localStorage.getItem('history')?.length) return (
     <div className="load">
       <div>还没有浏览过文章</div>
     </div>

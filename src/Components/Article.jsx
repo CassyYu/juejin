@@ -1,5 +1,5 @@
-import Comment from "./Comment";
-import FormatDate from "./FormatDate";
+import Comment from "./comment";
+import FormatDate from "./formatDate";
 import { getArticleById } from '../fake-api';
 import { useEffect, useState } from "react";
 import "./article.css";

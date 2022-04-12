@@ -1,5 +1,5 @@
-import Category from "./Category";
-import Article from "./Article";
+import Category from "./category";
+import Article from "./article";
 import { Switch, Route } from "react-router-dom";
 
 export default function RouteContainer() {

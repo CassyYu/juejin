@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import './list.css';
-import FormatDate from "./FormatDate";
+import FormatDate from "./formatDate";
 
 export default function List(props) {
 

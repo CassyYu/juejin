@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import RouteContainer from "./Components/RouteContainer";
-import Nav from "./Components/Nav";
+import RouteContainer from "./components/routeContainer";
+import Nav from "./components/nav";
 
 export default function App() {
 
