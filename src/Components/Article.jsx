@@ -2,7 +2,7 @@ import Comment from "./comment";
 import FormatDate from "./formatDate";
 import { getArticleById } from '../fake-api';
 import { useEffect, useState } from "react";
-import "./article.css";
+import './article.css';
 
 export default function Article() {
 
@@ -39,53 +39,58 @@ export default function Article() {
     })()
   }, [item.content])
 
-  const showImage = img => img ? <img src={img} alt="文章图片" style={{ width: '100%', height: 'auto' }} /> : <></>;
+  const showImage = img => img ? <img src={img} alt="" style={{ width: '100%', height: 'auto' }} /> : <></>;
 
   return (
-    <div className="article">
-      <div className="header">
-        <img className="avatar" src={item.avatar_large} alt={"头像"} />
-        <div style={{ flexGrow: '1' }}>
-          <div style={{ fontSize: '16px', fontWeight: '700' }}>{item.user_name}</div>
-          <span style={{ display: 'flex', fontSize: '14px', color: '#888' }}><FormatDate ctime={item.ctime} opt={1} />&nbsp;&nbsp;阅读量{item.hot_index}</span>
-        </div>
-        <button className="subscribe">关注</button>
+    <>
+      <div className="icon-container">
+        <img className="main-icon" src={"https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg"} alt="logo" />
       </div>
-      <article>
-        {showImage(item.cover_image)}
-        <h1>{item.title}</h1>
-        <div id="content"></div>
-        <div style={{ paddingTop: '25px', marginBottom: '40px', fontSize: '14px', borderTop: '1px solid #eee' }}>
-          <span><b>文章分类</b></span>
-          <span className="tag" style={{ display: 'inline-block', marginBottom: '20px' }}>
-            <span>{item.first_category_name}</span>
-          </span>
-          <br />
-          <span><b>文章标签</b></span>
-          <span className="tag">
-            <span>{item.first_category_name}</span>
-            <span>{item.second_category_name}</span>
-          </span>
-        </div>
-        <div className="author">
-          <img src={item.avatar_large} alt={"头像"}></img>
-          <div className="right-box">
-            <span>
-              <span style={{ fontSize: '15px' }}><b>{item.user_name}</b></span>
-              <span className="fontType" style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', color: '#aaa' }}>{item.description}</span>
-            </span>
-            <div className="fontType">
-              <span>获得点赞{item.follower_count}</span>
-              <span style={{margin: '0 3px'}}>·</span>
-              <span>获得阅读{item.got_view_count}</span>
-            </div>
+      <div className="article">
+        <div className="header">
+          <img className="avatar" src={item.avatar_large} alt="" />
+          <div style={{ flexGrow: '1' }}>
+            <div style={{ fontSize: '16px', fontWeight: '700' }}>{item.user_name}</div>
+            <span style={{ display: 'flex', fontSize: '14px', color: '#888' }}><FormatDate ctime={item.ctime} opt={1} />&nbsp;&nbsp;阅读量{item.hot_index}</span>
           </div>
-          <button className="subscribe" style={{ margin: '0 10px' }}>关注</button>
+          <button className="subscribe">关注</button>
         </div>
-      </article>
-      <div className="comment-list">
-        <Comment item={item} />
+        <article>
+          {showImage(item.cover_image)}
+          <h1>{item.title}</h1>
+          <div id="content"></div>
+          <div style={{ paddingTop: '25px', marginBottom: '40px', fontSize: '14px', borderTop: '1px solid #eee' }}>
+            <span><b>文章分类</b></span>
+            <span className="tag" style={{ display: 'inline-block', marginBottom: '20px' }}>
+              <span>{item.first_category_name}</span>
+            </span>
+            <br />
+            <span><b>文章标签</b></span>
+            <span className="tag">
+              <span>{item.first_category_name}</span>
+              <span>{item.second_category_name}</span>
+            </span>
+          </div>
+          <div className="author">
+            <img src={item.avatar_large} alt="" ></img>
+            <div className="right-box">
+              <span>
+                <span style={{ fontSize: '15px' }}><b>{item.user_name}</b></span>
+                <span className="fontType" style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', color: '#aaa' }}>{item.description}</span>
+              </span>
+              <div className="fontType">
+                <span>获得点赞{item.follower_count}</span>
+                <span style={{ margin: '0 3px' }}>·</span>
+                <span>获得阅读{item.got_view_count}</span>
+              </div>
+            </div>
+            <button className="subscribe" style={{ margin: '0 10px' }}>关注</button>
+          </div>
+        </article>
+        <div className="comment-list">
+          <Comment item={item} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }

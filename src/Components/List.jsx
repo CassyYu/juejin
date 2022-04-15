@@ -6,7 +6,7 @@ export default function List(props) {
 
   const { articles, handleClickAriticle } = props;
 
-  const showImage = img => img ? <img src={img} alt="文章图片" /> : <></>;
+  const showImage = img => img ? <img src={img} alt="" /> : <></>;
 
   if (articles.length) {
     return articles.map(item => {
@@ -16,22 +16,23 @@ export default function List(props) {
       return (
         <Link to={"/post/id=" + article_id} key={second_category_id + article_id} onClick={handleClickAriticle(article_id)}>
           <div className="list">
-            <div className="title" style={{ fontSize: '17px', color: '#333' }}><b>{title}</b></div>
             <div className="header">
               <span className="author">{user_name}</span>
+              <span></span>
               <span className="date"><FormatDate ctime={ctime} opt={2} /></span>
             </div>
+            <div className="title">{title}</div>
             <div className="main">
-              <div className="brief">{brief_content}</div>
+              <div className="brief">{brief_content}...</div>
               {showImage(cover_image)}
             </div>
             <div className="footer">
               <span className="info">
-                <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                <i className="thumb-icon"></i>
                 <span>{collect_count}</span>
               </span>
               <span className="info">
-                <i className="fa fa-comment-o" aria-hidden="true"></i>
+                <i className="comment-icon"></i>
                 <span>{comment_count}</span>
               </span>
               <span className="tags">

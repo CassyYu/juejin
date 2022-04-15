@@ -27,7 +27,7 @@ export default function Comment({ item }) {
         const { avatar_large, user_name, description } = user_info;
         return (
           <div className="subComment" key={reply_id}>
-            <img src={avatar_large} alt={"头像"}></img>
+            <img src={avatar_large} alt=""></img>
             <div className="right-box" style={{ overflow: 'hidden' }}>
             <div style={{ padding: '2px 0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', color: '#aaa' }}>
                 <span style={{ paddingRight: '5px', color: '#333', fontSize: '13px', fontWeight: '400' }}>{user_name}</span>
@@ -56,7 +56,7 @@ export default function Comment({ item }) {
     return (
       <div key={comment_id}>
         <div className="comment">
-          <img src={avatar_large} alt={"头像"}></img>
+          <img src={avatar_large} alt=""></img>
           <div className="right-box" style={{ overflow: 'hidden' }}>
             <div style={{ padding: '2px 0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', color: '#aaa' }}>
               <span style={{ paddingRight: '5px', color: '#333', fontSize: '13px', fontWeight: '400' }}>{user_name}</span>

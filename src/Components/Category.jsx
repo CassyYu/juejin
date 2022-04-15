@@ -1,60 +1,52 @@
 import Header from "./header";
 import List from "./list";
-import { getArticles, getArticleById } from '../fake-api';
-import { useEffect, useState } from "react";
+import { getArticles } from '../fake-api';
+import { useEffect, useState, useRef } from "react";
+import { LoadSvg } from "../svg";
 
 export default function Category(props) {
 
-  const itemHeight = 190;
-  const itemNum = Math.ceil((document.body.clientHeight - 93) / itemHeight);
-  const limit = 3 * itemNum;
-
-
   const [articles, setArticles] = useState([]);
-  const [visitedArticles, setVisitedArticles] = useState([]);
 
   const [categoryId, setCategoryId] = useState(props.categoryId);
   const [currentTab, setCurrentTab] = useState("推荐");
-  const [currentSub, setCurrentSub] = useState('全部');
-  const { sortBy } = props;
+  const [currentSub, setCurrentSub] = useState("全部");
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState();
   const [offset, setOffset] = useState(0);
-  const [maxItemNum, setMaxItemNum] = useState(limit);
-  const [e, setE] = useState(null);
 
-  const top = offset * itemHeight;
-  const bottom = (maxItemNum - limit) * itemHeight - top;
+  const container = useRef();
+  const head = useRef();
+  const foot = useRef();
+
+  const { sortBy } = props;
 
   useEffect(() => {
     (async () => {
-      const res = await getArticles(categoryId, sortBy, offset, limit);
-      setTotal(res.total);
+      const res = await getArticles(categoryId, sortBy, offset, 10);
       const { articles } = res.data;
+      setTotal(res.total);
       setArticles(articles);
     })();
-    (async () => {
-      let vArticles = [];
-      const str = window.localStorage.getItem('history');
-      const arr = str ? JSON.parse(str) : [];
-      for (let i = 0, len = arr.length; i < len; i++) {
-        const res = await getArticleById(arr[i]);
-        vArticles.push(res.data.article);
-      }
-      setVisitedArticles(vArticles);
-    })()
-  }, [categoryId, sortBy, offset, limit, itemNum]);
+    const observerHeader = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      container.current.scrollTop = 1;
+      setOffset(offset - 5);
+    });
+    const observerFooter = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      foot.current.scrollIntoView();
+      setOffset(offset + 5);
+    });
+    if (offset !== 0) observerHeader.observe(document.querySelector('.scrollerHeader'));
+    observerFooter.observe(document.querySelector('.scrollerFooter'));
+    return () => {
+      observerHeader.disconnect();
+      observerFooter.disconnect();
+    }
+  }, [categoryId, sortBy, offset]);
 
-  const handleScroll = (e) => {
-    setE(e);
-    const height = e.target.scrollTop - itemNum * itemHeight;
-    const index = parseInt(height / itemHeight);
-    if (offset + limit > maxItemNum) setMaxItemNum(offset + limit);
-    if (index >= offset + itemNum) setOffset(Math.min(total - limit, offset + itemNum));
-    else if (index <= offset - itemNum) setOffset(Math.max(0, offset - itemNum));
-  }
-
-  const handleClickAriticle = function (id) {
+  function handleClickAriticle(id) {
     return () => {
       const str = window.localStorage.getItem('history');
       const arr = str ? JSON.parse(str) : [];
@@ -65,53 +57,47 @@ export default function Category(props) {
     }
   }
 
-  const handleClickTab = (category_name, category_id) => {
-    return (() => {
+  function handleClickTab(category_name, category_id) {
+    return () => {
       setCurrentTab(category_name);
       setCurrentSub('全部');
-      changeCategory(category_id);
-      if (e != null) e.target.scrollTop = 0;
+      setCategoryId(category_id);
       setOffset(0);
-      setMaxItemNum(limit);
-    })
+    }
   }
 
-  const handleClickSub = (category_name, category_id) => {
-    return (() => {
+  function handleClickSub(category_name, category_id) {
+    return () => {
       setCurrentSub(category_name);
-      changeCategory(category_id);
-      if (e != null) e.target.scrollTop = 0;
+      setCategoryId(category_id);
       setOffset(0);
-      setMaxItemNum(limit);
-    })
+    }
   }
 
-  const changeCategory = (id) => setCategoryId(id);
-
-  if (sortBy === "history" && !window.localStorage.getItem('history')?.length) return (
-    <div className="load">
-      <div>还没有浏览过文章</div>
-    </div>
-  )
-  else if (sortBy !== "history" && articles.length === 0) return (
-    <div className="load">
-      <div>loading...</div>
-    </div>
-  )
-  if (sortBy === "history") return (
-    <main style={{ overflow: 'scroll', marginTop: '5px' }}>
-      <List articles={visitedArticles} handleClickAriticle={handleClickAriticle} />
-    </main>
-  )
-  else return (
+  return (
     <>
+      <div className="icon-container">
+        <img className="main-icon" src={"https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg"} alt="logo" />
+      </div>
       <Header urlString={"/" + sortBy} handleClickTab={handleClickTab} handleClickSub={handleClickSub} currentTab={currentTab} currentSub={currentSub} />
-      <div style={{ overflow: 'scroll' }} onScroll={handleScroll}>
-        <div style={{ height: top + 'px' }}></div>
+      <div className="main-container" ref={container}>
+        {/* <div style={{ height: top + 'px' }}></div> */}
         <main>
+          {offset !== 0 ? (
+            <div className="scrollerHeader" ref={head}>
+              {/* <div className="load"><LoadSvg />&nbsp;loading</div> */}
+            </div>
+          ) : <></>}
           <List articles={articles} handleClickAriticle={handleClickAriticle} />
+          {/* <List articles={articles.slice(0, 5)} handleClickAriticle={handleClickAriticle} />
+          <List articles={articles.slice(5, 10)} handleClickAriticle={handleClickAriticle} /> */}
+          {offset >= total ? <></> : (
+            <div className="scrollerFooter" ref={foot}>
+              <div className="load"><LoadSvg />&nbsp;loading</div>
+            </div>
+          )}
         </main>
-        <div style={{ height: bottom + 'px' }}></div>
+        {/* <div style={{ height: bottom + 'px' }}></div> */}
       </div>
     </>
   )

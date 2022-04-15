@@ -2,10 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Microsoft YaHei;
+  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial!important;
+  transition: all .3s ease-in-out;
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 ul,
 li {
@@ -22,45 +24,40 @@ html {
 
 body {
   height: 100%;
+  background-color: #f5f5f5;
   overflow: hidden;
-  background-color: #eee;
 }
 
 #root {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f4f4f4;
 }
 
-main {
-  flex-grow: 1;
-  /* max-width: 800px; */
+.icon-container {
+  width: 100%;
+  background-color: #fff;
+}
+.main-icon {
+  width: 120px;
+  padding: 10px 0;
+  margin: 0 auto;
+  display: block;
 }
 
-header {
-  /* min-height: 43px; */
+header,
+.icon-container {
   background-color: #fff;
-  position: relative;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .07);
   z-index: 1;
-  display: flex;
-  justify-content: center;
-}
-.stretch {
-  margin-bottom: 36px;
-}
-header .icon {
-  top: 0;
-  right: 0;
-  padding: 10px 10px 8px 10px;
-  position: absolute;
-  z-index: 1;
-  background-color: #fff;
 }
 header .tabs {
-  flex-grow: 1;
-  padding: 10px 102px 0 20px;
-  box-shadow: 0 2px 5px #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
   overflow-x: scroll;
   white-space: nowrap;
 }
@@ -68,103 +65,97 @@ header .tabs::-webkit-scrollbar {
   display: none;
 }
 header .tabs>li {
-  padding: 0 15px;
   display: inline-block;
-}
-header .tabs>li:first-child {
-  border-left: 0px;
-  padding-left: 0px;
 }
 header .tabs>li>a {
   display: inline-block;
-  color: #333;
   font-weight: 400;
-  font-size: 16px;
-  padding-bottom: 8px;
+  font-size: 14px;
+  padding: 8px 16px;
+  color: #71777c;
 }
 header .subTabs {
   width: 100%;
   padding: 7px 10px;
-  z-index: 1;
-  left: 0;
-  position: absolute;
   display: none;
-  background-color: #f4f4f4;
-  box-shadow: 0 2px 5px #e4e4e4;
+  background-color: rgb(244, 245, 245);
 }
 header .subTabs>li {
-  margin: 0px 7px;
-  padding: 1px 10px;
+  background-color: #fff;
+  margin: 3px 6px;
+  padding: 4px 10px;
   display: inline-block;
   border-radius: 50rem;
 }
 header .subTabs>li>a {
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 100;
+  display: flex;
+  align-items: center;
+  color: #909090;
+  font-size: 13px;
+  font-weight: 400;
 }
 
 header .activeTab {
-  color: #1a76ff;
-  height: 33px;
-  border-bottom: 2px solid #4d94ff;
-}
-
-header .negativeSubBox {
-  background-color: #e4e4e4;
+  color: #1a76ff !important;
 }
 header .activeSubBox {
-  background-color: #4d94ff;
+  background-color: #007fff !important;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 5%);
+  color: #fff;
 }
-
+header .activeSub {
+  color: #fff !important;
+}
 header .activeSubMenu {
   display: block;
 }
-
-header .activeSub {
-  color: #fff;
+@media screen and (min-width: 800px) {
+  header .activeSubMenu {
+    display: flex;
+    justify-content: center;
+  }
 }
-header .negativeSub {
-  color: #333;
+
+.main-container {
+  overflow: scroll;
+}
+/* .main-container::-webkit-scrollbar {
+  display: none;
+} */
+
+main {
+  flex-grow: 1;
+  margin: 0 auto;
+  max-width: 1024px;
 }
 
 nav {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
-  background-color: #eee;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
 }
 
 nav ul {
-  margin: 3px;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 nav li {
-  padding: 2px 25px;
-  border-radius: 5px;
-}
-nav li a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 10px;
 }
-nav li span:nth-child(1) {
-  color: #666;
-  font-size: 18px;
-  display: inline-block;
-  height: 22px;
+nav li div {
+  font-size: 13px;
+  color: #71777c;
 }
-nav li span:nth-child(2) {
-  color: #666;
-  font-size: 12px;
-  display: inline-block;
-  height: 18px;
-}
-
-nav .activeNav {
-  background-color: #dfdfdf;
+nav .activeNav div,
+nav .activeNav svg {
+  color: #1a76ff !important;
 }
 
 .rotate {
@@ -184,7 +175,20 @@ nav .activeNav {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
   text-align: center;
+  padding: 5px;
+  font-size: 16px;
   color: #888;
+}
+
+.load svg {
+  animation: loading .8s linear infinite;
+}
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
